@@ -55,7 +55,24 @@ app.get('/cupcakes', requiresAuth(), async (req, res, next) => {
 });
 
 app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
+  console.log(req.oidc.user)
+  // res.send(JSON.stringify(req.oidc.user));
+  const html = `
+    <html>
+      <head>
+        <title>My Cupcakes</title>
+      </head>
+      <body>
+        <h1 style="text-align:center">Cupcakes Factory</h1>
+        <h2>Welcome, ${req.oidc.user.name}!</h1>
+        <h4>Username: ${req.oidc.user.nickname}</h4>
+        <p>${req.oidc.user.email}</p>
+        <img src="https://lh3.googleusercontent.com/a/ACg8ocJZGSZA6-CcsU3uuCw8y5vT6ped79vwvcgg-R_yMQ3q=s96-c" alt="User Image">
+      </body>
+    </html>
+    `;
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);  
 });
 
 // error handling middleware
